@@ -7,19 +7,26 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 
-// Simple CORS middleware allowing local dev origin(s)
-app.use((req, res, next) => {
-  const allowed = ['http://localhost:3003', 'http://127.0.0.1:3003'];
-  const origin = req.headers.origin;
-  if (allowed.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-  }
-  if (req.method === 'OPTIONS') return res.sendStatus(204);
-  next();
-});
+// Use official cors middleware with allowlist for local dev
+const cors = require('cors');
+const allowedOrigins = ['http://localhost:3003', 'http://127.0.0.1:3003'];
+app.use(cors({
+  origin: function(origin, callback) {
+    // allow requests with no origin (like curl, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization']
+}));
+
+// enable preflight for all routes
+app.options('*', cors());
 
 // Contoh endpoint root
 app.get('/', (req, res) => {
