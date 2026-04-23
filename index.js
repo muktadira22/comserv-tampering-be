@@ -25,8 +25,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type','Authorization']
 }));
 
-// enable preflight for all routes
-app.options('*', cors());
 
 // Contoh endpoint root
 app.get('/', (req, res) => {
