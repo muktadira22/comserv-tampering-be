@@ -1,8 +1,11 @@
 const express = require('express');
 const axios = require('axios');
+const productRoutes = require('./src/routes/product');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
+
+app.use(express.json());
 
 // Contoh endpoint root
 app.get('/', (req, res) => {
@@ -19,6 +22,9 @@ app.get('/external', async (req, res) => {
     res.status(500).json({ error: 'Gagal mengambil data eksternal' });
   }
 });
+
+// Mount product routes at /product
+app.use('/product', productRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server berjalan di http://localhost:${PORT}`);
