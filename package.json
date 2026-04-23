@@ -1,0 +1,25 @@
+{
+  "name": "comserv-tampering-be",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muktadira22/comserv-tampering-be.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/muktadira22/comserv-tampering-be/issues"
+  },
+  "homepage": "https://github.com/muktadira22/comserv-tampering-be#readme",
+  "dependencies": {
+    "axios": "^1.15.2",
+    "express": "^5.2.1"
+  }
+}
