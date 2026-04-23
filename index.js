@@ -7,6 +7,25 @@ const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 
+// Use official cors middleware with allowlist for local dev
+const cors = require('cors');
+const allowedOrigins = ['http://localhost:3003', 'http://127.0.0.1:3003'];
+app.use(cors({
+  origin: function(origin, callback) {
+    // allow requests with no origin (like curl, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization']
+}));
+
+
 // Contoh endpoint root
 app.get('/', (req, res) => {
   res.send('Server Express berjalan!');
